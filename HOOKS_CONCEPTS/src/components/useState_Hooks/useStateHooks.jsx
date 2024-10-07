@@ -1,7 +1,7 @@
 // useStateHooks.js
 
 import { useState } from 'react';
-import '../../app.css'
+import '../useState_Hooks/UseStateHooks.css'
 
 function UseStateHooks() {
 
