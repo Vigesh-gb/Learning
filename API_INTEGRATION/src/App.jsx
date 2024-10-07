@@ -1,20 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./app.css";
 
 function App() {
   const [users, setUsers] = useState([]); // State to store user data
   const [loading, setLoading] = useState(false);
 
-  async function apiCall() {
-    setLoading(true);
-    const response = await fetch("https://jsonplaceholder.typicode.com/users");
-    const data = await response.json();
-    setTimeout (() => {
-      setUsers(data); // Store the API data in state
-      setLoading(false) // Stop loading after 2 seconds
-    }, 2000) // 2000 ms = 2 seconds
-    console.log(data);
-  }
+  // async function apiCall() {
+  //   setLoading(true);
+  //   const response = await fetch("https://jsonplaceholder.typicode.com/users");
+  //   const data = await response.json();
+  //   setTimeout (() => {
+  //     setUsers(data); // Store the API data in state
+  //     setLoading(false) // Stop loading after 2 seconds
+  //   }, 2000) // 2000 ms = 2 seconds
+  //   console.log(data);
+  // }
 
   // async function apiCall() {
   //   setLoading(true);  // Set loading to true before starting API call
@@ -34,10 +34,31 @@ function App() {
   //   }
   // }
 
+  useEffect(() => {
+    async function apiCall() {
+      setLoading(true);
+
+      try{
+        const response = await fetch("https://jsonplaceholder.typicode.com/users");
+        const data = await response.json();
+
+        setTimeout(() => {
+          setUsers(data);
+          setLoading(false);
+        }, 2000)
+      }catch (error){
+        console.log("Failed to fetch data:", error);
+        setLoading(false);
+      }
+    }
+
+    apiCall();
+  }, [])
+
   return (
     <div className="container">
       <h1 className="api_heading">Api Integration</h1>
-      <button className="api_btn" onClick={apiCall}>CLICK</button>
+      {/* <button className="api_btn" onClick={apiCall}>CLICK</button> */}
       {loading ? (
         <div className="spinner"></div>
       ) : (
